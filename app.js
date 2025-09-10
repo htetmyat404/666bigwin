@@ -78,15 +78,17 @@ function spin(){
     setTimeout(()=>{cell.classList.remove('animate');},500);
   });
 
-  // 🗿 for free spins
-  let count=0;
-  container.querySelectorAll('.slot-cell').forEach(cell=>{ if(cell.textContent==='🗿') count++; });
-  if(count===3){ currentFreeSpins+=5; soundScatter.play(); }
-  else if(count===4){ currentFreeSpins+=15; soundScatter.play(); }
-  else if(count>=5){ currentFreeSpins+=20; soundScatter.play(); }
+  // 🗿 scatter logic (trigger only once per spin)
+  let scatterCells = Array.from(container.querySelectorAll('.slot-cell')).filter(cell => cell.textContent === '🗿');
+  let scatterCount = scatterCells.length;
+  if(scatterCount >= 3 && scatterCount <= 5){
+    if(scatterCount === 3){ currentFreeSpins += 5; soundScatter.play(); }
+    else if(scatterCount === 4){ currentFreeSpins += 15; soundScatter.play(); }
+    else if(scatterCount === 5){ currentFreeSpins += 20; soundScatter.play(); }
+  }
 
   // Coins win/loss random
-  const coinGain=Math.floor(Math.random()*1000);
+  const coinGain=Math.floor(Math.random()*1000 - 300); // +/- for thrill
   currentCoins+=coinGain;
   if(coinGain>0) soundWin.play();
   else soundLose.play();
@@ -97,11 +99,17 @@ function spin(){
 }
 
 // ===== Auto Spin =====
-function startAutoSpin(){
-  if(autoSpinActive) return;
-  autoSpinActive=true;
-  const autoSpinInterval=setInterval(()=>{
-    if(currentFreeSpins<=0){ autoSpinActive=false; clearInterval(autoSpinInterval); return;}
-    spin();
-  },3000); // 3 seconds per spin
+function toggleAutoSpin(){
+  const btn=document.getElementById('auto-spin-btn');
+  if(autoSpinActive){
+    autoSpinActive=false;
+    btn.textContent='🤖 Auto Spin';
+  } else {
+    autoSpinActive=true;
+    btn.textContent='🛑 Stop Auto Spin';
+    const autoSpinInterval=setInterval(()=>{
+      if(!autoSpinActive || currentFreeSpins<=0){ autoSpinActive=false; btn.textContent='🤖 Auto Spin'; clearInterval(autoSpinInterval); return;}
+      spin();
+    },3500);
+  }
 }
