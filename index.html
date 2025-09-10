@@ -7,26 +7,35 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<audio id="bgm" src="sounds/bgm.mp3" loop autoplay></audio>
+
 <div class="container">
-  <h1>Myanmar Pyi Gyin 🎰</h1>
-  <div id="auth-box">
-    <div id="login-box">
-      <h2>Login</h2>
-      <input type="text" id="login-phone" placeholder="Phone number">
-      <input type="password" id="login-pass" placeholder="Password">
-      <button onclick="login()">Login</button>
-      <p>Don't have an account? <span onclick="showSignup()">Sign up</span></p>
-    </div>
-    <div id="signup-box" style="display:none">
-      <h2>Sign Up</h2>
-      <input type="text" id="signup-name" placeholder="Name">
-      <input type="text" id="signup-phone" placeholder="Phone number">
-      <input type="password" id="signup-pass" placeholder="Password">
-      <button onclick="signup()">Sign Up</button>
-      <p>Already have an account? <span onclick="showLogin()">Login</span></p>
+
+  <!-- User Profile -->
+  <div class="user-profile">
+    <div class="avatar">🧒</div>
+    <div class="user-info">
+      <p>ID: <span id="user-id"></span></p>
+      <p>Coins: <span id="coins">0</span></p>
     </div>
   </div>
+
+  <!-- Daily Gift -->
+  <div class="daily-gift">
+    <h3>Daily Gift</h3>
+    <button onclick="claimDaily()">Claim Today</button>
+    <p id="daily-msg"></p>
+  </div>
+
+  <!-- Game Section -->
+  <div class="games-section">
+    <h3>ဂိမ်းများ</h3>
+    <div class="game-card" onclick="startSlotGame()">Myanmar Pyi Gyin 🎰</div>
+  </div>
+
 </div>
+
 <script src="app.js"></script>
 </body>
 </html>
