@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Myanmar Pyi Gyin Slot</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<audio id="bgm" src="sounds/bgm.mp3" loop autoplay></audio>
+
+<div class="slot-container" id="slot-container"></div>
+
+<div class="controls">
+  <button onclick="spin()">SPIN</button>
+  <p>Free Spins: <span id="free-spins">0</span></p>
+  <p>Coins: <span id="coins">0</span></p>
+</div>
+
+<div class="notification-box">
+  <h3>Daily Rewards</h3>
+  <ul id="daily-noti"></ul>
+  <button onclick="claimDaily()">Claim Today</button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
