@@ -2,9 +2,11 @@
 let userId = 'U'+Math.floor(Math.random()*1000000);
 let coins = 10000;
 let freeSpins = 0;
+let autoSpinActive = false;
+
 document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('user-id').textContent = userId;
-  document.getElementById('coins').textContent = coins;
+  if(document.getElementById('user-id')) document.getElementById('user-id').textContent = userId;
+  if(document.getElementById('coins')) document.getElementById('coins').textContent = coins;
 });
 
 // ===== Daily Gift =====
@@ -14,7 +16,7 @@ function claimDaily(){
   if(localStorage.getItem('dailyClaimed')==today){document.getElementById('daily-msg').textContent='Already claimed today!';return;}
   const reward=dailyRewards[today%7];
   coins+=reward;
-  document.getElementById('coins').textContent = coins;
+  if(document.getElementById('coins')) document.getElementById('coins').textContent = coins;
   localStorage.setItem('dailyClaimed',today);
   document.getElementById('daily-msg').textContent=`You got ${reward} coins!`;
 }
@@ -27,7 +29,7 @@ function startSlotGame(){
   window.location='slot.html';
 }
 
-// ===== Slot Machine =====
+// ===== Slot Machine Arcade =====
 const symbols=['👌','👉','👶','🤳','💧','💃','🕺','👩‍❤️‍👨','🧘','🙍','🛌','🤵','👰','🍆','🥨','😍','🥰','🤩','🤏','🪡','🗿','🚨','🍿','🍑','🥕','🍒','🦆','🍌','🍎'];
 const rows=6,cols=5;
 const soundSpin=new Audio('sounds/spin.mp3');
@@ -38,6 +40,7 @@ const soundScatter=new Audio('sounds/scatter.mp3');
 let currentUserId;
 let currentCoins;
 let currentFreeSpins;
+
 document.addEventListener('DOMContentLoaded',()=>{
   if(window.location.pathname.endsWith('slot.html')){
     currentUserId=localStorage.getItem('currentUserId');
@@ -64,7 +67,9 @@ function updateDisplay(){
   document.getElementById('free-spins').textContent=currentFreeSpins;
 }
 
+// ===== Spin Logic =====
 function spin(){
+  if(currentFreeSpins>0){ currentFreeSpins--; }
   soundSpin.play();
   const container=document.getElementById('slot-container');
   container.querySelectorAll('.slot-cell').forEach(cell=>{
@@ -80,7 +85,7 @@ function spin(){
   else if(count===4){ currentFreeSpins+=15; soundScatter.play(); }
   else if(count>=5){ currentFreeSpins+=20; soundScatter.play(); }
 
-  // Coins win random
+  // Coins win/loss random
   const coinGain=Math.floor(Math.random()*1000);
   currentCoins+=coinGain;
   if(coinGain>0) soundWin.play();
@@ -89,4 +94,14 @@ function spin(){
   updateDisplay();
   localStorage.setItem('currentCoins',currentCoins);
   localStorage.setItem('currentFreeSpins',currentFreeSpins);
+}
+
+// ===== Auto Spin =====
+function startAutoSpin(){
+  if(autoSpinActive) return;
+  autoSpinActive=true;
+  const autoSpinInterval=setInterval(()=>{
+    if(currentFreeSpins<=0){ autoSpinActive=false; clearInterval(autoSpinInterval); return;}
+    spin();
+  },3000); // 3 seconds per spin
 }
