@@ -9,16 +9,17 @@ function signup(){
   if(!name!phone!pass){alert('Fill all fields');return;}
   const uuid='U'+Math.floor(Math.random()*1000000);
   const userData={uuid,name,phone,pass,coins:0,freeSpins:0};
-  localStorage.setItem(phone, JSON.stringify(userData));
-  alert('Account created!'); showLogin();
+  localStorage.setItem('user_'+phone, JSON.stringify(userData));
+  alert('Account created!');
+  showLogin();
 }
 
 function login(){
   const phone=document.getElementById('login-phone').value;
   const pass=document.getElementById('login-pass').value;
-  const user=JSON.parse(localStorage.getItem(phone));
+  const user=JSON.parse(localStorage.getItem('user_'+phone));
   if(user && user.pass===pass){
-    localStorage.setItem('currentUser',phone);
+    localStorage.setItem('currentUser','user_'+phone);
     window.location='slot.html';
   }else{alert('Invalid credentials');}
 }
@@ -35,9 +36,9 @@ const soundScatter = new Audio('sounds/scatter.mp3');
 
 let currentUser;
 document.addEventListener('DOMContentLoaded',()=>{
-  const userKey = localStorage.getItem('currentUser');
-  if(!userKey){ window.location='index.html'; return; }
-  currentUser = JSON.parse(localStorage.getItem(userKey));
+  const currentUserKey = localStorage.getItem('currentUser');
+  if(!currentUserKey){ window.location='index.html'; return; }
+  currentUser = JSON.parse(localStorage.getItem(currentUserKey));
 
   const container=document.getElementById('slot-container');
   for(let r=0;r<rows;r++){
