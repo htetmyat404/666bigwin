@@ -15,5 +15,5 @@ body{margin:0;padding:0;font-family:'Arial',sans-serif;background:linear-gradien
 .slot-cell{width:65px;height:65px;margin:4px;background:#111;display:flex;justify-content:center;align-items:center;font-size:2em;border-radius:12px;box-shadow:0 6px 12px rgba(0,0,0,0.7);transform-style:preserve-3d;transition:transform 0.5s;}
 .slot-cell.animate{transform:rotateX(360deg);}
 .controls{text-align:center;margin:20px 0;}
-.spin-btn,.auto-spin-btn{padding:15px 30px;font-size:1.1em;border:none;border-radius:15px;background:linear-gradient(90deg,#ff8c00,#ffd700);color:#000;font-weight:bold;cursor:pointer;transition:0.3s;margin:5px;}
-.spin-btn:hover,.auto-spin-btn:hover{opacity:0.9;}
+#spin-btn,#auto-spin-btn{padding:15px 30px;font-size:1.1em;border:none;border-radius:15px;background:linear-gradient(90deg,#ff8c00,#ffd700);color:#000;font-weight:bold;cursor:pointer;transition:0.3s;margin:5px;}
+#spin-btn:hover,#auto-spin-btn:hover{opacity:0.9;}
